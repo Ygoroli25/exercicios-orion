@@ -1,0 +1,17 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# instala nodemon globalmente (para live reload)
+RUN npm install -g nodemon
+
+COPY package*.json ./
+RUN npm install
+
+# copia o restante (no dev, isso é pouco usado pois você vai montar volume)
+COPY . .
+
+ENV NODE_ENV=development
+
+# inicia com nodemon
+CMD ["nodemon", "index.js"]
