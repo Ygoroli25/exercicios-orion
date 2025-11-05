@@ -1,0 +1,17 @@
+{
+  "name": "hello-api-db",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon --legacy-watch index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.11.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
