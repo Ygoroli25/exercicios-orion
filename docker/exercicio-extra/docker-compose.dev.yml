@@ -1,0 +1,5 @@
+services:
+  api:
+    volumes:
+      - ./api/src:/app/src
+    command: ["node", "src/index.js"] 
