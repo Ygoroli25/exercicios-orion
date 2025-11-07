@@ -1,0 +1,28 @@
+# Exercício 4 — MongoDB (Consultas avançadas, arrays e docs aninhados)
+# Database: orion | Collection: posts
+
+# 1) UPDATE: adicionar array de documentos "comentarios" em um post
+use orion
+db.posts.updateOne(
+  { titulo: "Primeiro post no Mongo" },
+  {
+    $set: {
+      comentarios: [
+        { autor: "Carol", texto: "Muito bom!", data: new Date() },
+        { autor: "Leo",   texto: "Curti a ideia", data: new Date() }
+      ]
+    }
+  }
+)
+
+# 3a) find(): posts com a tag "nosql" (busca dentro de array)
+db.posts.find({ tags: "nosql" }).toArray()
+
+# 3b) find(): posts de um autor específico
+db.posts.find({ autor: "Ygor" }).toArray()
+
+# (Opcional) ver comentários do post
+db.posts.find(
+  { titulo: "Primeiro post no Mongo" },
+  { _id:0, titulo:1, comentarios:1 }
+).pretty()

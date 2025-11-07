@@ -1,0 +1,53 @@
+services:
+  db_postgres:
+    image: postgres:16-alpine
+    container_name: orion_postgres_db
+    environment:
+      POSTGRES_USER: orion_user
+      POSTGRES_PASSWORD: orion_password
+      POSTGRES_DB: orion_db
+    # Em prod, poderíamos não expor portas; aqui mantemos Postgres somente interno.
+    # ports: []  # sem portas expostas
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "orion_user", "-d", "orion_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [orion_network]
+
+  db_mongo:
+    image: mongo:latest
+    container_name: orion_mongo_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: orion_admin
+      MONGO_INITDB_ROOT_PASSWORD: orion_admin_pass
+    # Em prod, sem expose de portas públicas
+    # ports: []
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [orion_network]
+
+  mongo_client:
+    build:
+      context: ./exercicio-4
+      dockerfile: Dockerfile.prod
+    container_name: orion_mongo_client_prod
+    depends_on:
+      - db_mongo
+    # sem volumes montados em prod
+    networks: [orion_network]
+
+volumes:
+  postgres_data:
+  mongo_data:
+
+networks:
+  orion_network:
+    driver: bridge

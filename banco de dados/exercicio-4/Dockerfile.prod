@@ -1,0 +1,5 @@
+FROM mongo:latest
+WORKDIR /app
+COPY scripts/ /app/scripts/
+# roda as consultas automaticamente ao subir
+CMD ["mongosh", "mongodb://orion_admin:orion_admin_pass@db_mongo:27017/?authSource=admin", "/app/scripts/queries.js"]
