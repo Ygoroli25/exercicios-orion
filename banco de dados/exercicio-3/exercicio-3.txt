@@ -1,0 +1,29 @@
+# Exercício 3 — MongoDB (CRUD Básico + Schema Flexível)
+# Banco: orion   |  Coleção: posts
+
+# 0) Selecionar/CRIAR o database
+use orion
+
+# 1) Criar coleção (opcional; o Mongo cria na 1ª inserção)
+db.createCollection("posts")
+
+# 2) Inserir 1º documento (sem tags)
+db.posts.insertOne({
+  titulo: "Primeiro post no Mongo",
+  autor: "Ygor",
+  conteudo: "Hello, NoSQL!"
+})
+
+# 3) Inserir 2º documento (com tags — prova de schema flexível)
+db.posts.insertOne({
+  titulo: "Segundo post com tags",
+  autor: "Ygor",
+  conteudo: "Agora com campo opcional",
+  tags: ["nosql", "flexivel"]
+})
+
+# 4) Consultar todos (Read)
+db.posts.find().toArray()
+
+# 5) (Opcional) Ver bonitinho
+db.posts.find({}, { _id: 0, titulo: 1, autor: 1, tags: 1 }).pretty()
