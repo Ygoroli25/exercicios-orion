@@ -1,0 +1,4 @@
+FROM mongo:latest
+WORKDIR /app
+# em dev, vamos montar scripts via volume no compose
+CMD ["mongosh", "--help"]
